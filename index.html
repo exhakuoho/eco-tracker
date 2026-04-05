@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Factory JARVIS</title>
+<title>Factory JARVIS v3</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -15,11 +15,8 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg0);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden}
-/* grid bg */
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,232,122,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
 .wrap{position:relative;z-index:1}
-
-/* NAV */
 .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;background:rgba(5,10,22,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border2);padding:0 28px;height:52px}
 .nav-brand{display:flex;align-items:center;gap:8px;margin-right:28px;text-decoration:none;cursor:pointer}
 .nav-logo{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#00e87a,#00c8e8);display:flex;align-items:center;justify-content:center;font-size:14px}
@@ -29,22 +26,16 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .nav-btn:hover{color:var(--text)}
 .nav-btn.active{color:var(--green);border-bottom:2px solid var(--green);background:rgba(0,232,122,0.05)}
 .nav-icon{width:13px;height:13px;opacity:.75}
-
-/* PAGES */
 .page{display:none;padding:28px 36px 80px;min-height:calc(100vh - 52px)}
 .page.active{display:block}
 .page-hdr{margin-bottom:24px}
 .page-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:3px}
 .page-sub{font-size:12px;color:var(--text3)}
-
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .kpi{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px}
 .kpi-lbl{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);font-weight:500;margin-bottom:7px}
 .kpi-val{font-size:26px;font-weight:800;color:#fff;line-height:1}
 .kpi-val span{font-size:12px;font-weight:400;color:var(--text2);margin-left:3px}
-
-/* CONTROLS */
 .ctrl-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .tbtn-group{display:flex;gap:6px}
 .tbtn{padding:6px 13px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
@@ -52,15 +43,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sbtn-group{display:flex;gap:8px}
 .sbtn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
 .sbtn.active{background:var(--green);border-color:var(--green);color:#000;font-weight:700}
-
-/* CHART CARD */
 .chart-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:18px 22px;margin-bottom:14px}
 .chart-hdr{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px}
 .chart-hdr-right{margin-left:auto;font-size:11px;color:var(--text3)}
 .chart-wrap{height:175px;position:relative}
 .chart-wrap-lg{height:195px;position:relative}
-
-/* DEVICE GRID */
 .sec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sec-title{font-size:15px;font-weight:700;color:#fff}
 .sec-count{font-size:12px;color:var(--text2)}
@@ -84,16 +71,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .dev-badge.stop{background:rgba(255,255,255,0.07);color:var(--text3)}
 .dev-meta{display:flex;gap:10px;font-size:11px;color:var(--text3)}
 .dev-meta-i{display:flex;align-items:center;gap:3px}
-
-/* TIPS */
 .tips-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px 20px;margin-bottom:18px}
 .tips-hdr{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
 .tips-empty{font-size:12px;color:var(--text3);text-align:center;padding:12px 0}
 .tip-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border2);font-size:12px;color:var(--text2)}
 .tip-item:last-child{border-bottom:none}
 .tip-dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:4px;flex-shrink:0}
-
-/* BOTTOM BAR */
 .bot-bar{position:sticky;bottom:0;background:rgba(5,10,22,0.97);border-top:1px solid var(--border2);padding:10px 36px;display:flex;align-items:center;justify-content:space-between}
 .btn{display:flex;align-items:center;gap:5px;padding:8px 15px;border-radius:8px;border:none;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;transition:all .2s}
 .btn-g{background:var(--green);color:#000}
@@ -105,8 +88,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .btn-r:hover{background:rgba(255,79,106,0.18)}
 .badge-r{background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;margin-left:3px}
 .bot-l{display:flex;gap:8px}
-
-/* ── ENERGY PAGE ── */
 .stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
 .stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px 18px}
 .stat-lbl{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);margin-bottom:7px}
@@ -119,8 +100,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .rank-bar-wrap{flex:1;height:7px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden}
 .rank-bar{height:100%;border-radius:4px;transition:width .7s ease}
 .rank-val{width:70px;text-align:right;font-size:11px;color:var(--text2);flex-shrink:0;font-family:'Space Mono',monospace}
-
-/* ── LCA PAGE ── */
 .lca-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
 .lca-product{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin-bottom:14px}
 .lca-ph{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;border-bottom:1px solid var(--border2)}
@@ -157,8 +136,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .lca-sum-col .l{font-size:11px;color:var(--text3);margin-bottom:3px}
 .lca-sum-col .v{font-size:15px;font-weight:700}
 .sum-total .v{font-size:18px;color:var(--green)}
-
-/* ── DEVICE MGMT PAGE ── */
 .edit-form{background:var(--bg2);border:1px solid rgba(0,232,122,0.2);border-radius:10px;padding:18px;margin-bottom:18px}
 .form-group{margin-bottom:12px}
 .form-lbl{font-size:12px;color:var(--text2);margin-bottom:5px;display:block}
@@ -177,22 +154,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .dli-meta{font-size:12px;color:var(--text3)}
 .edit-btn{display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
 .edit-btn:hover{border-color:var(--green);color:var(--green)}
-
-/* ── SETTINGS PAGE ── */
 .settings-section{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:20px;margin-bottom:14px}
 .settings-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:7px}
 .settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .settings-save{display:flex;justify-content:flex-end;margin-top:14px}
-
-/* MODAL */
+/* Zone list in settings */
+.zone-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.zone-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px}
+.zone-name{font-size:13px;font-weight:600;color:#fff}
+.zone-meta{font-size:11px;color:var(--text3);margin-top:2px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;width:460px;max-width:90vw;max-height:85vh;overflow-y:auto}
 .modal-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .modal-close{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0}
 .modal-close:hover{color:#fff}
-
-/* AI COPILOT */
 .ai-btn{position:fixed;bottom:76px;right:28px;z-index:150;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px rgba(0,232,122,0.4);transition:transform .2s}
 .ai-btn:hover{transform:scale(1.1)}
 .ai-panel{position:fixed;bottom:76px;right:28px;z-index:149;width:340px;height:460px;background:var(--bg2);border:1px solid rgba(0,232,122,0.2);border-radius:14px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.5)}
@@ -212,20 +188,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .ai-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:#fff;font-size:12px;font-family:'Noto Sans TC',sans-serif;outline:none;transition:border-color .2s}
 .ai-input:focus{border-color:var(--green)}
 .ai-send{width:32px;height:32px;border-radius:8px;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000;flex-shrink:0}
-
-/* LOADING */
 .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(0,232,122,.3);border-top-color:var(--green);border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-overlay{position:fixed;inset:0;background:rgba(5,10,22,0.7);z-index:300;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;backdrop-filter:blur(4px)}
 .loading-overlay.show{display:flex}
 .loading-text{color:var(--text2);font-size:13px}
-
-/* TOAST */
 .toast{position:fixed;top:64px;right:24px;z-index:400;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:13px;color:var(--text);transform:translateX(120%);transition:transform .3s;display:flex;align-items:center;gap:8px}
 .toast.show{transform:translateX(0)}
 .toast.success{border-color:rgba(0,232,122,.3)}
 .toast.error{border-color:rgba(255,79,106,.3)}
-
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 </style>
@@ -241,7 +212,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
   <div class="nav-links">
     <button class="nav-btn active" id="nb-dashboard" onclick="gotoPage('dashboard')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>備表板
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>儀表板
     </button>
     <button class="nav-btn" id="nb-energy" onclick="gotoPage('energy')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>能源報告
@@ -290,7 +261,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   <div class="dev-grid" id="devGrid"></div>
   <div class="tips-card">
     <div class="tips-hdr"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5b800" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>節能建議</div>
-    <div id="tipsBody"><div class="tips-empty">目前無節能建議，所有設備運作跡況良好 ✓</div></div>
+    <div id="tipsBody"><div class="tips-empty">目前無節能建議，所有設備運作狀況良好 ✓</div></div>
   </div>
 </div>
 <div class="bot-bar" id="dashBar">
@@ -354,6 +325,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <!-- ══════════ SETTINGS ══════════ -->
 <div class="page" id="page-settings">
   <div class="page-hdr"><div class="page-title">設定</div><div class="page-sub">Settings</div></div>
+
+  <!-- 區域管理 -->
+  <div class="settings-section">
+    <div class="settings-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00c8e8" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>區域管理</div>
+    <div class="zone-list" id="zoneList">載入中...</div>
+    <button class="btn btn-g" onclick="openAddZoneModal()" style="width:100%"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增區域</button>
+  </div>
+
+  <!-- 電費設定 -->
   <div class="settings-section">
     <div class="settings-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e87a" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>電費設定</div>
     <div class="settings-grid">
@@ -407,6 +387,30 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
 </div>
 
+<!-- 新增區域 Modal -->
+<div class="modal-overlay" id="addZoneModal">
+  <div class="modal">
+    <div class="modal-title">新增區域<button class="modal-close" onclick="closeModal('addZoneModal')">✕</button></div>
+    <div class="form-group"><label class="form-lbl">區域名稱</label><input class="form-input" id="az-name" placeholder="如：辦公室、倉儲區"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+      <button class="btn btn-o" onclick="closeModal('addZoneModal')">取消</button>
+      <button class="btn btn-g" onclick="submitAddZone()">✓ 新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- Simple Modal (for LCA adds) -->
+<div class="modal-overlay" id="simpleModal">
+  <div class="modal">
+    <div class="modal-title"><span id="sm-title"></span><button class="modal-close" onclick="closeModal('simpleModal')">✕</button></div>
+    <div id="sm-body"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+      <button class="btn btn-o" onclick="closeModal('simpleModal')">取消</button>
+      <button class="btn btn-g" onclick="confirmSimpleModal()">✓ 確認</button>
+    </div>
+  </div>
+</div>
+
 <!-- AI COPILOT -->
 <button class="ai-btn" onclick="toggleAI()" title="EcoTrack Copilot">🤖</button>
 <div class="ai-panel" id="aiPanel">
@@ -426,21 +430,16 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
 </div>
 
-<!-- LOADING -->
 <div class="loading-overlay" id="loadingOverlay"><div class="spin" style="width:24px;height:24px;border-width:3px"></div><div class="loading-text">處理中...</div></div>
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════════
-// CONFIG
+// v3 — localStorage 版本（Base44 資料已還原）
 // ═══════════════════════════════════════════════════
-const APP_ID = '69a07eba3d4540d5ed5dbafe';
-const BASE_URL = 'https://api.base44.com/api/apps/' + APP_ID + '/entities';
-const CARBON = 0.509; // kg CO2/kWh
-let peakRate = 6.5, offpeakRate = 2.1;
 
-// ── In-memory state ──
+const CARBON = 0.509;
+let peakRate = 6.5, offpeakRate = 2.1;
 let state = { devices:[], zones:[], logs:[], products:[], steps:[], wastes:[], extras:[], settings:{} };
 let dashTrendChart, eTrendChart, eCarbonChart;
 let editingDeviceId = null;
@@ -448,72 +447,95 @@ let timeRange = 'month';
 let spaceFilter = 'all';
 let energyRange = '7d';
 
-// ═══════════════════════════════════════════════════
-// API HELPERS
-// ═══════════════════════════════════════════════════
-async function apiFetch(entity, opts={}){
-  const url = `${BASE_URL}/${entity}`;
-  const r = await fetch(url, {
-    method: opts.method||'GET',
-    headers:{'Content-Type':'application/json'},
-    body: opts.body ? JSON.stringify(opts.body) : undefined
-  });
-  if(!r.ok) throw new Error(`API ${entity} ${r.status}`);
-  return r.json();
-}
-async function apiGet(entity, query={}){
-  const qs = new URLSearchParams();
-  Object.entries(query).forEach(([k,v])=>qs.set(k,v));
-  const url = `${BASE_URL}/${entity}${qs.toString()?'?'+qs:''}`;
-  const r = await fetch(url,{headers:{'Content-Type':'application/json'}});
-  if(!r.ok) throw new Error(`API ${entity} ${r.status}`);
-  return r.json();
-}
-async function apiPatch(entity, id, body){
-  const r = await fetch(`${BASE_URL}/${entity}/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(`PATCH ${entity} ${r.status}`);
-  return r.json();
-}
-async function apiPost(entity, body){
-  const r = await fetch(`${BASE_URL}/${entity}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(`POST ${entity} ${r.status}`);
-  return r.json();
-}
-async function apiDelete(entity, id){
-  const r = await fetch(`${BASE_URL}/${entity}/${id}`,{method:'DELETE',headers:{'Content-Type':'application/json'}});
-  if(!r.ok) throw new Error(`DELETE ${entity} ${r.status}`);
-  return true;
+// ── localStorage helpers ──
+function lsGet(k){ try{return JSON.parse(localStorage.getItem('fj_'+k))||null;}catch{return null;} }
+function lsSave(k,v){ localStorage.setItem('fj_'+k, JSON.stringify(v)); }
+function genId(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,6); }
+
+// ── 預設資料（從 Base44 還原）──
+const SEED_ZONES = [
+  {id:'69a477a7e912dd9d447d8871', name:'工廠產線', icon:'factory'}
+];
+const SEED_DEVICES = [
+  {id:'69a477aee912dd9d447d8875', name:'三軸CNC微型加工機',   zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:true,  wattage:850},
+  {id:'69a477aee912dd9d447d8876', name:'立式微型射出機',       zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:true,  wattage:1200},
+  {id:'69a477aee912dd9d447d8877', name:'臥式微型射出機',       zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:false, wattage:1100},
+  {id:'69a477aee912dd9d447d8878', name:'龍門式3D列印機-初號',  zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:true,  wattage:600},
+  {id:'69a477aee912dd9d447d8879', name:'龍門式3D列印機-貳號',  zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:true,  wattage:600},
+  {id:'69a477aee912dd9d447d887a', name:'CORE XY型3D列印機',    zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:false, wattage:400},
+  {id:'69a477aee912dd9d447d887b', name:'微型線材製造機',       zone_id:'69a477a7e912dd9d447d8871', zone_name:'工廠產線', is_on:true,  wattage:950}
+];
+const SEED_PRODUCTS = [
+  {id:'69a47a1c134cc6b79ec9b652', name:'精密卡片套', description:'CNC+3D列印+雷雕', material:'鋁合金', unit:'個'}
+];
+const SEED_STEPS = [
+  {id:'69a47de5187a887857335308', product_id:'69a47a1c134cc6b79ec9b652', step_name:'CNC切削',  device_id:'69a477aee912dd9d447d8875', device_name:'三軸CNC微型加工機',  duration_hours:300},
+  {id:'69a47a3aed1d0ccc8b8d2882', product_id:'69a47a1c134cc6b79ec9b652', step_name:'3D列印',   device_id:'69a477aee912dd9d447d887a', device_name:'CORE XY型3D列印機', duration_hours:12}
+];
+const SEED_WASTES = [
+  {id:'69a47e41328f348c8f3c872f', product_id:'69a47a1c134cc6b79ec9b652', name:'切削液', grams:300,  lca_value:3},
+  {id:'69a47e30d4154ef5a27092d3', product_id:'69a47a1c134cc6b79ec9b652', name:'鋁屑',   grams:6000, lca_value:2.5}
+];
+const SEED_EXTRAS = [
+  {id:'69a47e7c600d6093250d85fe', product_id:'69a47a1c134cc6b79ec9b652', name:'陽極處理', carbon_kg:16},
+  {id:'69a47e6c873055fbe93f67e5', product_id:'69a47a1c134cc6b79ec9b652', name:'噴砂處理', carbon_kg:5}
+];
+const SEED_SETTINGS = {
+  id:'69d2d934e4fc3571ece95d2d', peak_rate:6.5, offpeak_rate:2.1,
+  carbon_factor:0.509, monthly_budget:3000, offpeak_start:'22:30', offpeak_end:'07:30'
+};
+
+function generateSeedLogs(){
+  const logs=[];
+  const rnd=(min,max)=>Math.random()*(max-min)+min;
+  // 產生 3/1 ~ 4/6 共 37 天的耗電記錄（每台設備每2小時一筆）
+  const startDate = new Date(2026,2,1); // 3月1日
+  const endDate   = new Date(2026,3,6); // 4月6日
+  for(let d=new Date(startDate); d<=endDate; d.setDate(d.getDate()+1)){
+    for(let h=6; h<=22; h+=2){
+      const ts = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, 0, 0);
+      const isPeak = h>=9 && h<=22;
+      SEED_DEVICES.forEach(dev=>{
+        if(!dev.is_on && Math.random()>0.4) return;
+        logs.push({
+          id: genId(),
+          device_id: dev.id,
+          device_name: dev.name,
+          zone_id: dev.zone_id,
+          timestamp: ts.toISOString(),
+          kwh: parseFloat((dev.wattage * 2 / 1000 * rnd(0.6, 1.0)).toFixed(3)),
+          is_peak: isPeak
+        });
+      });
+    }
+  }
+  return logs;
 }
 
-// ═══════════════════════════════════════════════════
-// INIT – load all data
-// ═══════════════════════════════════════════════════
-async function loadAll(){
-  try{
-    const [zones, devices, logs, products, steps, wastes, extras, settings] = await Promise.all([
-      apiGet('Zone'),
-      apiGet('Device'),
-      apiGet('PowerLog',{limit:500,sort:'-timestamp'}),
-      apiGet('Product'),
-      apiGet('ProcessStep'),
-      apiGet('WasteMaterial'),
-      apiGet('ExtraProcess'),
-      apiGet('SystemSettings')
-    ]);
-    state.zones    = zones.entities    || zones    || [];
-    state.devices  = devices.entities  || devices  || [];
-    state.logs     = logs.entities     || logs     || [];
-    state.products = products.entities || products || [];
-    state.steps    = steps.entities    || steps    || [];
-    state.wastes   = wastes.entities   || wastes   || [];
-    state.extras   = extras.entities   || extras   || [];
-    state.settings = (settings.entities||settings||[])[0] || {};
-    if(state.settings.peak_rate)   peakRate    = state.settings.peak_rate;
-    if(state.settings.offpeak_rate)offpeakRate = state.settings.offpeak_rate;
-  }catch(e){
-    console.warn('loadAll error',e);
-    showToast('資料載入部分失敗', 'error');
-  }
+// ── 初始化：如果 localStorage 是空的就填入預設資料 ──
+function seedIfEmpty(){
+  if(!lsGet('zones'))    lsSave('zones',    SEED_ZONES);
+  if(!lsGet('devices'))  lsSave('devices',  SEED_DEVICES);
+  if(!lsGet('products')) lsSave('products', SEED_PRODUCTS);
+  if(!lsGet('steps'))    lsSave('steps',    SEED_STEPS);
+  if(!lsGet('wastes'))   lsSave('wastes',   SEED_WASTES);
+  if(!lsGet('extras'))   lsSave('extras',   SEED_EXTRAS);
+  if(!lsGet('settings')) lsSave('settings', SEED_SETTINGS);
+  if(!lsGet('logs'))     lsSave('logs',     generateSeedLogs());
+}
+
+function loadAll(){
+  seedIfEmpty();
+  state.zones    = lsGet('zones')    || [];
+  state.devices  = lsGet('devices')  || [];
+  state.logs     = lsGet('logs')     || [];
+  state.products = lsGet('products') || [];
+  state.steps    = lsGet('steps')    || [];
+  state.wastes   = lsGet('wastes')   || [];
+  state.extras   = lsGet('extras')   || [];
+  state.settings = lsGet('settings') || {};
+  if(state.settings.peak_rate)    peakRate    = state.settings.peak_rate;
+  if(state.settings.offpeak_rate) offpeakRate = state.settings.offpeak_rate;
 }
 
 // ═══════════════════════════════════════════════════
@@ -527,52 +549,44 @@ function calcKPIs(){
   const cost      = monthLogs.reduce((s,l)=>s+(l.kwh||0)*(l.is_peak?peakRate:offpeakRate),0);
   const onDevices = state.devices.filter(d=>d.is_on);
   const instWatt  = onDevices.reduce((s,d)=>s+(d.wattage||0),0);
-  document.getElementById('kpi-kwh').innerHTML   = totalKwh.toFixed(1)+'<span>kWh</span>';
-  document.getElementById('kpi-devices').innerHTML = `${onDevices.length}<span style="font-size:16px;color:var(--text3)">/${state.devices.length}</span>`;
-  document.getElementById('kpi-watt').innerHTML  = instWatt.toLocaleString()+'<span>W</span>';
-  document.getElementById('kpi-cost').innerHTML  = '$'+cost.toFixed(0)+'<span>元</span>';
-  document.getElementById('onCount').textContent = onDevices.length;
-  document.getElementById('dev-count').textContent = state.devices.length + ' 個設備';
+  document.getElementById('kpi-kwh').innerHTML    = totalKwh.toFixed(1)+'<span>kWh</span>';
+  document.getElementById('kpi-devices').innerHTML= `${onDevices.length}<span style="font-size:16px;color:var(--text3)">/${state.devices.length}</span>`;
+  document.getElementById('kpi-watt').innerHTML   = instWatt.toLocaleString()+'<span>W</span>';
+  document.getElementById('kpi-cost').innerHTML   = '$'+cost.toFixed(0)+'<span>元</span>';
+  document.getElementById('onCount').textContent  = onDevices.length;
+  document.getElementById('dev-count').textContent= state.devices.length + ' 個設備';
 }
 
 function getDateLabels(range){
-  const labels=[], dates=[];
-  const now = new Date();
-  const days = range==='today'?1 : range==='week'?7 : 30;
+  const labels=[],dates=[];
+  const now=new Date();
+  let days = range==='today'?1:range==='week'?7:30;
   for(let i=days-1;i>=0;i--){
     const d=new Date(now); d.setDate(d.getDate()-i);
-    const label=`${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
-    labels.push(label);
+    labels.push(`${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`);
     dates.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()));
   }
   return {labels,dates};
 }
 
-function buildTrendData(range){
-  const {labels,dates}=getDateLabels(range);
-  const data = dates.map(date=>{
-    const next = new Date(date); next.setDate(next.getDate()+1);
+function renderDashTrend(){
+  const {labels,dates}=getDateLabels(timeRange);
+  const kwhByDay=dates.map(date=>{
+    const next=new Date(date); next.setDate(next.getDate()+1);
     return state.logs.filter(l=>{const t=new Date(l.timestamp);return t>=date&&t<next;}).reduce((s,l)=>s+(l.kwh||0),0);
   });
-  return {labels,data};
-}
-
-function renderDashTrend(){
-  const {labels,data}=buildTrendData(timeRange);
   const ctx=document.getElementById('dashTrendChart').getContext('2d');
-  if(dashTrendChart)dashTrendChart.destroy();
-  dashTrendChart=new Chart(ctx,{type:'line',data:{labels,datasets:[{data,borderColor:'#00e87a',borderWidth:2,pointBackgroundColor:'#00e87a',pointRadius:3,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,170);g.addColorStop(0,'rgba(0,232,122,.18)');g.addColorStop(1,'rgba(0,232,122,0)');return g;},tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kWh'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10},maxTicksLimit:10}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}},min:0}}}});
+  if(dashTrendChart) dashTrendChart.destroy();
+  dashTrendChart=new Chart(ctx,{type:'line',data:{labels,datasets:[{data:kwhByDay,borderColor:'#00e87a',borderWidth:2.5,pointBackgroundColor:'#00e87a',pointRadius:3,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,160);g.addColorStop(0,'rgba(0,232,122,.22)');g.addColorStop(1,'rgba(0,232,122,0)');return g;},tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kWh'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}},min:0}}}});
 }
 
 function renderDevGrid(){
-  const devices = spaceFilter==='all' ? state.devices : state.devices.filter(d=>d.zone_name==='工廠產線');
-  const grid=document.getElementById('devGrid');
-  if(!devices.length){grid.innerHTML='<div style="color:var(--text3);font-size:13px;padding:20px 0">無設備</div>';return;}
-  grid.innerHTML=devices.map(d=>`
+  const devs = spaceFilter==='all' ? state.devices : state.devices.filter(d=>d.zone_name==='工廠產線');
+  document.getElementById('devGrid').innerHTML = devs.map(d=>`
     <div class="dev-card ${d.is_on?'on':''}" id="dc-${d.id}">
       <div class="dev-top">
-        <div class="dev-pwr ${d.is_on?'on':'off'}">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        <div class="dev-pwr ${d.is_on?'on':'off'}" onclick="toggleDevice('${d.id}',${!d.is_on})">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
         </div>
         <div class="toggle ${d.is_on?'on':''}" onclick="toggleDevice('${d.id}',${!d.is_on})"></div>
       </div>
@@ -595,89 +609,70 @@ function getDeviceKwh(id){
 }
 
 function renderTips(){
-  const offDevs = state.devices.filter(d=>!d.is_on);
-  const highWatt = state.devices.filter(d=>d.is_on && d.wattage>1000);
+  const highWatt=state.devices.filter(d=>d.is_on&&d.wattage>1000);
   const tips=[];
-  if(highWatt.length) tips.push(`${highWatt.map(d=>d.name).join('、')} 功率較高（>${1000}W），請確認是否必要運行。`);
-  if(offDevs.length===0 && state.devices.length>0) tips.push('所有設備均在運行，建議確認非必要設備是否可關閉以節省電費。');
+  if(highWatt.length) tips.push(`${highWatt.map(d=>d.name).join('、')} 功率較高（>1000W），請確認是否必要運行。`);
+  if(state.devices.length>0&&state.devices.every(d=>d.is_on)) tips.push('所有設備均在運行，建議確認非必要設備是否可關閉以節省電費。');
   const el=document.getElementById('tipsBody');
-  if(!tips.length){el.innerHTML='<div class="tips-empty">目前無節能建議，所有設備運作跡況良好 ✓</div>';return;}
-  el.innerHTML=tips.map(t=>`<div class="tip-item"><div class="tip-dot"></div>${t}</div>`).join('');
+  el.innerHTML=tips.length?tips.map(t=>`<div class="tip-item"><div class="tip-dot"></div>${t}</div>`).join(''):'<div class="tips-empty">目前無節能建議，所有設備運作狀況良好 ✓</div>';
 }
 
-async function toggleDevice(id, newState){
+function toggleDevice(id, newState){
   const d=state.devices.find(x=>x.id===id);
   if(!d)return;
   d.is_on=newState;
+  lsSave('devices',state.devices);
   renderDevGrid(); calcKPIs(); renderTips();
-  try{
-    await apiPatch('Device',id,{is_on:newState});
-    showToast(d.name+' '+(newState?'已開啟':'已關閉'),'success');
-  }catch(e){
-    d.is_on=!newState; renderDevGrid(); calcKPIs();
-    showToast('操作失敗','error');
-  }
+  showToast(d.name+' '+(newState?'已開啟':'已關閉'),'success');
 }
 
-async function shutAllDevices(){
-  const onDevs=state.devices.filter(d=>d.is_on);
-  if(!onDevs.length){showToast('所有設備已關閉','success');return;}
-  showLoading(true);
-  try{
-    await Promise.all(onDevs.map(d=>apiPatch('Device',d.id,{is_on:false})));
-    onDevs.forEach(d=>d.is_on=false);
-    renderDevGrid(); calcKPIs(); renderTips();
-    showToast(`已關閉 ${onDevs.length} 台設備`,'success');
-  }catch(e){
-    showToast('部分設備關閉失敗','error');
-  }finally{showLoading(false);}
+function shutAllDevices(){
+  state.devices.forEach(d=>d.is_on=false);
+  lsSave('devices',state.devices);
+  renderDevGrid(); calcKPIs(); renderTips();
+  showToast('已關閉所有設備','success');
 }
 
 // ═══════════════════════════════════════════════════
 // ENERGY PAGE
 // ═══════════════════════════════════════════════════
 function renderEnergyPage(){
-  const days = energyRange==='7d'?7:28;
+  const days=energyRange==='7d'?7:28;
   const now=new Date();
-  const labels=[], dateArr=[];
+  const labels=[],dateArr=[];
   for(let i=days-1;i>=0;i--){
-    const d=new Date(now);d.setDate(d.getDate()-i);
+    const d=new Date(now); d.setDate(d.getDate()-i);
     labels.push(`${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`);
     dateArr.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()));
   }
-  const kwhByDay = dateArr.map(date=>{
-    const next=new Date(date);next.setDate(next.getDate()+1);
+  const kwhByDay=dateArr.map(date=>{
+    const next=new Date(date); next.setDate(next.getDate()+1);
     return state.logs.filter(l=>{const t=new Date(l.timestamp);return t>=date&&t<next;}).reduce((s,l)=>s+(l.kwh||0),0);
   });
-  const co2ByDay = kwhByDay.map(k=>k*CARBON);
-  const totalKwh = kwhByDay.reduce((a,b)=>a+b,0);
-  const totalCo2 = totalKwh*CARBON;
-  // peak day
+  const co2ByDay=kwhByDay.map(k=>k*CARBON);
+  const totalKwh=kwhByDay.reduce((a,b)=>a+b,0);
+  const totalCo2=totalKwh*CARBON;
   let peakIdx=0,peakVal=0;
   kwhByDay.forEach((v,i)=>{if(v>peakVal){peakVal=v;peakIdx=i;}});
   document.getElementById('eTotalKwh').innerHTML=totalKwh.toFixed(1)+'<span class="u">kWh</span>';
   document.getElementById('eTotalCo2').innerHTML=totalCo2.toFixed(1)+'<span class="u">kg CO₂</span>';
-  document.getElementById('ePeak').textContent = peakVal>0 ? `${labels[peakIdx]} ${peakVal.toFixed(2)} kWh` : '—';
-
-  // line chart
+  document.getElementById('ePeak').textContent=peakVal>0?`${labels[peakIdx]} ${peakVal.toFixed(2)} kWh`:'—';
+  const colors=['#00e87a','#00c8e8','#5080ff','#9060ff','#ff9030','#ff6080','#ff4040'];
   const ctx1=document.getElementById('eTrendChart').getContext('2d');
   if(eTrendChart)eTrendChart.destroy();
-  eTrendChart=new Chart(ctx1,{type:'line',data:{labels,datasets:[{data:kwhByDay,borderColor:'#00e87a',borderWidth:2.5,pointBackgroundColor:'#00e87a',pointRadius:4,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,190);g.addColorStop(0,'rgba(0,232,122,.2)');g.addColorStop(1,'rgba(0,232,122,0)');return g;},tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kWh'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:11}},min:0}}}});
-  // bar chart
+  eTrendChart=new Chart(ctx1,{type:'line',data:{labels,datasets:[{data:kwhByDay,borderColor:'#00e87a',borderWidth:2.5,pointBackgroundColor:'#00e87a',pointRadius:3,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,185);g.addColorStop(0,'rgba(0,232,122,.2)');g.addColorStop(1,'rgba(0,232,122,0)');return g;},tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kWh'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}},min:0}}}});
   const ctx2=document.getElementById('eCarbonChart').getContext('2d');
   if(eCarbonChart)eCarbonChart.destroy();
-  eCarbonChart=new Chart(ctx2,{type:'bar',data:{labels,datasets:[{data:co2ByDay,backgroundColor:'rgba(0,232,122,.7)',borderRadius:4,hoverBackgroundColor:'#00e87a'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kg CO₂'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:11}},min:0}}}});
-  // rank
+  eCarbonChart=new Chart(ctx2,{type:'bar',data:{labels,datasets:[{data:co2ByDay,backgroundColor:'rgba(0,232,122,.7)',borderRadius:4,hoverBackgroundColor:'#00e87a'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(13,22,41,.95)',borderColor:'rgba(0,232,122,.3)',borderWidth:1,titleColor:'#8fa8c8',bodyColor:'#e2eaf5',callbacks:{label:c=>' '+c.raw.toFixed(2)+' kg CO₂'}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#4a6080',font:{size:10}},min:0}}}});
   const devKwh={};
-  state.logs.forEach(l=>{if(!devKwh[l.device_name])devKwh[l.device_name]=0;devKwh[l.device_name]+=l.kwh||0;});
+  state.logs.forEach(l=>{if(!devKwh[l.device_name])devKwh[l.device_name]=0; devKwh[l.device_name]+=l.kwh||0;});
   const ranked=Object.entries(devKwh).sort((a,b)=>b[1]-a[1]);
   const maxKwh=ranked[0]?ranked[0][1]:1;
-  const colors=['#00e87a','#00c8e8','#5080ff','#9060ff','#ff9030','#ff6080','#ff4040'];
   document.getElementById('rankList').innerHTML=ranked.map(([name,kwh],i)=>`
     <div class="rank-item">
       <div class="rank-name">${name}</div>
       <div class="rank-bar-wrap"><div class="rank-bar" style="width:${Math.round(kwh/maxKwh*100)}%;background:${colors[i%colors.length]}"></div></div>
-      <div class="rank-val">${kwh.toFixed(2)} kWh</div>
+      <div class="rank-val">${kwh.toFixed(1)} kWh</div>
     </div>`).join('');
 }
 
@@ -686,26 +681,24 @@ function renderEnergyPage(){
 // ═══════════════════════════════════════════════════
 function renderLCA(){
   const el=document.getElementById('lcaProducts');
-  if(!state.products.length){el.innerHTML='<div style="color:var(--text3);text-align:center;padding:40px">尚無產品，請點選「新增產品」</div>';return;}
-  el.innerHTML=state.products.map(p=>buildProductCard(p)).join('');
+  if(!state.products.length){el.innerHTML='<div style="text-align:center;color:var(--text3);padding:40px">尚無產品資料，點擊「新增產品」開始建立</div>';return;}
+  el.innerHTML=state.products.map(p=>renderProductCard(p)).join('');
 }
 
-function buildProductCard(p){
+function renderProductCard(p){
   const steps  = state.steps.filter(s=>s.product_id===p.id);
   const wastes = state.wastes.filter(w=>w.product_id===p.id);
   const extras = state.extras.filter(e=>e.product_id===p.id);
-  // calc kwh per step
-  const stepRows = steps.map((s,i)=>{
-    const dev = state.devices.find(d=>d.id===s.device_id);
-    const kwh = dev ? (dev.wattage * s.duration_hours / 1000) : 0;
+  const stepRows=steps.map(s=>{
+    const dev=state.devices.find(d=>d.id===s.device_id);
+    const kwh=dev?(dev.wattage*s.duration_hours/1000):0;
     return {s,dev,kwh};
   });
-  const machineKwh = stepRows.reduce((a,r)=>a+r.kwh,0);
-  const machineCo2 = machineKwh * CARBON;
-  const wasteCo2   = wastes.reduce((a,w)=>a+(w.grams/1000*w.lca_value),0);
-  const extraCo2   = extras.reduce((a,e)=>a+(e.carbon_kg||0),0);
-  const totalKwh   = machineKwh;
-  const totalCo2   = machineCo2 + wasteCo2 + extraCo2;
+  const machineKwh=stepRows.reduce((a,r)=>a+r.kwh,0);
+  const machineCo2=machineKwh*CARBON;
+  const wasteCo2  =wastes.reduce((a,w)=>a+(w.grams/1000*w.lca_value),0);
+  const extraCo2  =extras.reduce((a,e)=>a+(e.carbon_kg||0),0);
+  const totalCo2  =machineCo2+wasteCo2+extraCo2;
   return `
   <div class="lca-product">
     <div class="lca-ph" onclick="toggleLCABody('lca-body-${p.id}',this)">
@@ -713,14 +706,13 @@ function buildProductCard(p){
       <div class="lca-icon">📦</div>
       <div><div class="lca-pname">${p.name}</div><div class="lca-pmeta">${p.material||''}${p.material&&p.unit?'·':''}${p.unit||''}</div></div>
       <div class="lca-pstats">
-        <div class="lca-pstat"><div class="l">總耗電</div><div class="v" style="color:var(--green)">${totalKwh.toFixed(2)} kWh</div></div>
+        <div class="lca-pstat"><div class="l">總耗電</div><div class="v" style="color:var(--green)">${machineKwh.toFixed(2)} kWh</div></div>
         <div class="lca-pstat"><div class="l">總碳排</div><div class="v" style="color:var(--cyan)">${totalCo2.toFixed(3)} kg</div></div>
       </div>
       <button class="del-btn" onclick="event.stopPropagation();deleteProduct('${p.id}')">🗑</button>
     </div>
     <div class="lca-body" id="lca-body-${p.id}">
       <div class="lca-desc"><div class="lca-desc-l">製程簡介</div><div class="lca-desc-v">${p.description||'—'}</div></div>
-      <!-- Steps -->
       <div class="lca-sec">
         <div class="lca-sec-hdr">
           <div class="lca-sec-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00c8e8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>製程步驟（機器耗能）<span class="lca-cnt">${steps.length}</span></div>
@@ -735,7 +727,6 @@ function buildProductCard(p){
           <button class="del-btn" onclick="deleteStep('${r.s.id}','${p.id}')">🗑</button>
         </div>`).join('')}
       </div>
-      <!-- Waste -->
       <div class="lca-sec">
         <div class="lca-sec-hdr">
           <div class="lca-sec-title" style="color:var(--yellow)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f5b800" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>廢料消耗<span class="lca-cnt">${wastes.length}</span></div>
@@ -749,10 +740,9 @@ function buildProductCard(p){
           <button class="del-btn" onclick="deleteWaste('${w.id}','${p.id}')">🗑</button>
         </div>`).join('')}
       </div>
-      <!-- Extra -->
       <div class="lca-sec">
         <div class="lca-sec-hdr">
-          <div class="lca-sec-title" style="color:var(--purple)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#b090ff" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>其他製程碳排（陽極處理、運送等）<span class="lca-cnt">${extras.length}</span></div>
+          <div class="lca-sec-title" style="color:var(--purple)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#b090ff" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>其他製程碳排<span class="lca-cnt">${extras.length}</span></div>
           <button class="add-btn" onclick="openAddExtraModal('${p.id}')">+ 新增</button>
         </div>
         ${extras.map(e=>`
@@ -763,7 +753,6 @@ function buildProductCard(p){
           <button class="del-btn" onclick="deleteExtra('${e.id}','${p.id}')">🗑</button>
         </div>`).join('')}
       </div>
-      <!-- Summary -->
       <div class="lca-sum">
         <div class="lca-sum-title">LCA 碳足跡總計</div>
         <div class="lca-sum-row">
@@ -777,34 +766,30 @@ function buildProductCard(p){
   </div>`;
 }
 
-function toggleLCABody(bodyId, header){
+function toggleLCABody(bodyId,header){
   const body=document.getElementById(bodyId);
   const arrow=header.querySelector('div:first-child');
   if(body.style.display==='none'){body.style.display='flex';arrow.textContent='▼';}
   else{body.style.display='none';arrow.textContent='▶';}
 }
 
-// LCA CRUD helpers
-let lcaModalState = {};
+// LCA CRUD
+let simpleModalCallback=null;
 
 function openAddStepModal(pid){
-  const devOpts = state.devices.map(d=>`<option value="${d.id}" data-watt="${d.wattage}">${d.name} (${d.wattage}W)</option>`).join('');
+  const devOpts=state.devices.map(d=>`<option value="${d.id}">${d.name} (${d.wattage}W)</option>`).join('');
   showSimpleModal('新增製程步驟',`
     <div class="form-group"><label class="form-lbl">步驟名稱</label><input class="form-input" id="lm-stepname" placeholder="如：CNC切削"></div>
     <div class="form-group"><label class="form-lbl">使用設備</label><select class="form-input" id="lm-dev">${devOpts}</select></div>
     <div class="form-group"><label class="form-lbl">使用時數 (h)</label><input class="form-input" id="lm-hours" type="number" placeholder="300"></div>
-  `,async()=>{
+  `,()=>{
     const step_name=document.getElementById('lm-stepname').value;
     const device_id=document.getElementById('lm-dev').value;
     const duration_hours=parseFloat(document.getElementById('lm-hours').value)||0;
     const dev=state.devices.find(d=>d.id===device_id);
-    showLoading(true);
-    try{
-      const res=await apiPost('ProcessStep',{product_id:pid,step_name,device_id,device_name:dev?.name||'',duration_hours});
-      state.steps.push(res.entity||res);
-      renderLCA(); showToast('製程步驟已新增','success');
-    }catch(e){showToast('新增失敗','error');}
-    finally{showLoading(false);}
+    const rec={id:genId(),product_id:pid,step_name,device_id,device_name:dev?.name||'',duration_hours};
+    state.steps.push(rec); lsSave('steps',state.steps);
+    renderLCA(); showToast('製程步驟已新增','success');
   });
 }
 
@@ -815,17 +800,13 @@ function openAddWasteModal(pid){
       <div class="form-group"><label class="form-lbl">重量 (g)</label><input class="form-input" id="lm-grams" type="number" placeholder="300"></div>
       <div class="form-group"><label class="form-lbl">LCA值 (kg CO₂/kg)</label><input class="form-input" id="lm-lca" type="number" step="0.001" placeholder="3.0"></div>
     </div>
-  `,async()=>{
+  `,()=>{
     const name=document.getElementById('lm-wname').value;
     const grams=parseFloat(document.getElementById('lm-grams').value)||0;
     const lca_value=parseFloat(document.getElementById('lm-lca').value)||0;
-    showLoading(true);
-    try{
-      const res=await apiPost('WasteMaterial',{product_id:pid,name,grams,lca_value});
-      state.wastes.push(res.entity||res);
-      renderLCA(); showToast('廢料已新增','success');
-    }catch(e){showToast('新增失敗','error');}
-    finally{showLoading(false);}
+    const rec={id:genId(),product_id:pid,name,grams,lca_value};
+    state.wastes.push(rec); lsSave('wastes',state.wastes);
+    renderLCA(); showToast('廢料已新增','success');
   });
 }
 
@@ -833,54 +814,34 @@ function openAddExtraModal(pid){
   showSimpleModal('新增其他製程碳排',`
     <div class="form-group"><label class="form-lbl">製程名稱</label><input class="form-input" id="lm-ename" placeholder="如：陽極處理"></div>
     <div class="form-group"><label class="form-lbl">碳排量 (kg CO₂)</label><input class="form-input" id="lm-eco2" type="number" placeholder="16"></div>
-  `,async()=>{
+  `,()=>{
     const name=document.getElementById('lm-ename').value;
     const carbon_kg=parseFloat(document.getElementById('lm-eco2').value)||0;
-    showLoading(true);
-    try{
-      const res=await apiPost('ExtraProcess',{product_id:pid,name,carbon_kg});
-      state.extras.push(res.entity||res);
-      renderLCA(); showToast('已新增','success');
-    }catch(e){showToast('新增失敗','error');}
-    finally{showLoading(false);}
+    const rec={id:genId(),product_id:pid,name,carbon_kg};
+    state.extras.push(rec); lsSave('extras',state.extras);
+    renderLCA(); showToast('已新增','success');
   });
 }
 
-async function deleteProduct(id){
+function deleteProduct(id){
   if(!confirm('確定刪除此產品及所有相關資料？')) return;
-  showLoading(true);
-  try{
-    await apiDelete('Product',id);
-    state.products=state.products.filter(p=>p.id!==id);
-    state.steps=state.steps.filter(s=>s.product_id!==id);
-    state.wastes=state.wastes.filter(w=>w.product_id!==id);
-    state.extras=state.extras.filter(e=>e.product_id!==id);
-    renderLCA(); showToast('產品已刪除','success');
-  }catch(e){showToast('刪除失敗','error');}
-  finally{showLoading(false);}
+  state.products=state.products.filter(p=>p.id!==id);
+  state.steps   =state.steps.filter(s=>s.product_id!==id);
+  state.wastes  =state.wastes.filter(w=>w.product_id!==id);
+  state.extras  =state.extras.filter(e=>e.product_id!==id);
+  lsSave('products',state.products); lsSave('steps',state.steps);
+  lsSave('wastes',state.wastes); lsSave('extras',state.extras);
+  renderLCA(); showToast('產品已刪除','success');
 }
-async function deleteStep(id,pid){
-  showLoading(true);
-  try{await apiDelete('ProcessStep',id);state.steps=state.steps.filter(s=>s.id!==id);renderLCA();showToast('已刪除','success');}
-  catch(e){showToast('刪除失敗','error');}finally{showLoading(false);}
-}
-async function deleteWaste(id,pid){
-  showLoading(true);
-  try{await apiDelete('WasteMaterial',id);state.wastes=state.wastes.filter(w=>w.id!==id);renderLCA();showToast('已刪除','success');}
-  catch(e){showToast('刪除失敗','error');}finally{showLoading(false);}
-}
-async function deleteExtra(id,pid){
-  showLoading(true);
-  try{await apiDelete('ExtraProcess',id);state.extras=state.extras.filter(e=>e.id!==id);renderLCA();showToast('已刪除','success');}
-  catch(e){showToast('刪除失敗','error');}finally{showLoading(false);}
-}
+function deleteStep(id){ state.steps=state.steps.filter(s=>s.id!==id); lsSave('steps',state.steps); renderLCA(); showToast('已刪除','success'); }
+function deleteWaste(id){ state.wastes=state.wastes.filter(w=>w.id!==id); lsSave('wastes',state.wastes); renderLCA(); showToast('已刪除','success'); }
+function deleteExtra(id){ state.extras=state.extras.filter(e=>e.id!==id); lsSave('extras',state.extras); renderLCA(); showToast('已刪除','success'); }
 
 // ═══════════════════════════════════════════════════
 // DEVICE MANAGEMENT
 // ═══════════════════════════════════════════════════
 function renderDevMgmt(){
-  const el=document.getElementById('devMgmtList');
-  el.innerHTML=state.devices.map(d=>`
+  document.getElementById('devMgmtList').innerHTML=state.devices.map(d=>`
     <div class="dev-list-item">
       <div class="dot ${d.is_on?'on':'off'}"></div>
       <div class="dli-info">
@@ -892,6 +853,13 @@ function renderDevMgmt(){
 }
 
 function populateZoneSelects(){
+  if(!state.zones.length){
+    ['ad-zone','ef-zone'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.innerHTML='<option value="">（請先在設定中新增區域）</option>';
+    });
+    return;
+  }
   const opts=state.zones.map(z=>`<option value="${z.id}">${z.name}</option>`).join('');
   ['ad-zone','ef-zone'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts;});
 }
@@ -902,34 +870,28 @@ function startEdit(id){
   editingDeviceId=id;
   document.getElementById('ef-name').value=d.name;
   document.getElementById('ef-watt').value=d.wattage;
+  populateZoneSelects();
   const zoneEl=document.getElementById('ef-zone');
-  if(zoneEl)zoneEl.value=d.zone_id||'';
+  if(zoneEl&&d.zone_id) zoneEl.value=d.zone_id;
   const wrapper=document.getElementById('editFormWrapper');
   wrapper.style.display='block';
   document.getElementById('editFormTitle').textContent='編輯設備：'+d.name;
   wrapper.scrollIntoView({behavior:'smooth'});
 }
 
-function cancelEdit(){
-  editingDeviceId=null;
-  document.getElementById('editFormWrapper').style.display='none';
-}
+function cancelEdit(){ editingDeviceId=null; document.getElementById('editFormWrapper').style.display='none'; }
 
-async function saveDeviceEdit(){
+function saveDeviceEdit(){
   if(!editingDeviceId)return;
   const name=document.getElementById('ef-name').value.trim();
   const wattage=parseFloat(document.getElementById('ef-watt').value)||0;
   const zone_id=document.getElementById('ef-zone').value;
   const zone=state.zones.find(z=>z.id===zone_id);
-  showLoading(true);
-  try{
-    await apiPatch('Device',editingDeviceId,{name,wattage,zone_id,zone_name:zone?.name||''});
-    const d=state.devices.find(x=>x.id===editingDeviceId);
-    if(d){d.name=name;d.wattage=wattage;d.zone_id=zone_id;d.zone_name=zone?.name||'';}
-    cancelEdit(); renderDevMgmt(); renderDevGrid(); calcKPIs();
-    showToast('設備已更新','success');
-  }catch(e){showToast('更新失敗','error');}
-  finally{showLoading(false);}
+  const d=state.devices.find(x=>x.id===editingDeviceId);
+  if(d){ d.name=name; d.wattage=wattage; d.zone_id=zone_id; d.zone_name=zone?.name||''; }
+  lsSave('devices',state.devices);
+  cancelEdit(); renderDevMgmt(); renderDevGrid(); calcKPIs();
+  showToast('設備已更新','success');
 }
 
 function openAddDeviceModal(){
@@ -939,23 +901,19 @@ function openAddDeviceModal(){
   openModal('addDeviceModal');
 }
 
-async function submitAddDevice(){
+function submitAddDevice(){
   const name=document.getElementById('ad-name').value.trim();
   const wattage=parseFloat(document.getElementById('ad-watt').value)||0;
   const zone_id=document.getElementById('ad-zone').value;
   const zone=state.zones.find(z=>z.id===zone_id);
-  if(!name||!wattage){showToast('請填寫設備名稱與功率','error');return;}
-  showLoading(true);
-  try{
-    const res=await apiPost('Device',{name,wattage,zone_id,zone_name:zone?.name||'',is_on:false});
-    state.devices.push(res.entity||res);
-    closeModal('addDeviceModal'); renderDevGrid(); renderDevMgmt(); calcKPIs();
-    showToast('設備已新增','success');
-  }catch(e){showToast('新增失敗','error');}
-  finally{showLoading(false);}
+  if(!name||!wattage){ showToast('請填寫設備名稱與功率','error'); return; }
+  const rec={id:genId(),name,wattage,zone_id,zone_name:zone?.name||'',is_on:false};
+  state.devices.push(rec); lsSave('devices',state.devices);
+  closeModal('addDeviceModal'); renderDevGrid(); renderDevMgmt(); calcKPIs();
+  showToast('設備已新增','success');
 }
 
-async function openAddProductModal(){
+function openAddProductModal(){
   document.getElementById('ap-name').value='';
   document.getElementById('ap-material').value='';
   document.getElementById('ap-unit').value='';
@@ -963,41 +921,87 @@ async function openAddProductModal(){
   openModal('addProductModal');
 }
 
-async function submitAddProduct(){
+function submitAddProduct(){
   const name=document.getElementById('ap-name').value.trim();
   const material=document.getElementById('ap-material').value.trim();
   const unit=document.getElementById('ap-unit').value.trim();
   const description=document.getElementById('ap-desc').value.trim();
-  if(!name){showToast('請填寫產品名稱','error');return;}
-  showLoading(true);
-  try{
-    const res=await apiPost('Product',{name,material,unit,description});
-    state.products.push(res.entity||res);
-    closeModal('addProductModal'); renderLCA();
-    showToast('產品已新增','success');
-  }catch(e){showToast('新增失敗','error');}
-  finally{showLoading(false);}
+  if(!name){ showToast('請填寫產品名稱','error'); return; }
+  const rec={id:genId(),name,material,unit,description};
+  state.products.push(rec); lsSave('products',state.products);
+  closeModal('addProductModal'); renderLCA();
+  showToast('產品已新增','success');
+}
+
+// ═══════════════════════════════════════════════════
+// ZONE MANAGEMENT
+// ═══════════════════════════════════════════════════
+function renderZoneList(){
+  const el=document.getElementById('zoneList');
+  if(!state.zones.length){
+    el.innerHTML='<div style="text-align:center;color:var(--text3);padding:12px;font-size:12px">尚無區域，點擊下方「新增區域」建立</div>';
+    return;
+  }
+  el.innerHTML=state.zones.map(z=>{
+    const devCount=state.devices.filter(d=>d.zone_id===z.id).length;
+    return `<div class="zone-item">
+      <div><div class="zone-name">${z.name}</div><div class="zone-meta">${devCount} 台設備</div></div>
+      <button class="del-btn" onclick="deleteZone('${z.id}')" title="刪除區域">🗑</button>
+    </div>`;
+  }).join('');
+}
+
+function openAddZoneModal(){
+  document.getElementById('az-name').value='';
+  openModal('addZoneModal');
+}
+
+function submitAddZone(){
+  const name=document.getElementById('az-name').value.trim();
+  if(!name){ showToast('請填寫區域名稱','error'); return; }
+  const rec={id:genId(),name,icon:'building'};
+  state.zones.push(rec); lsSave('zones',state.zones);
+  closeModal('addZoneModal'); renderZoneList();
+  showToast('區域已新增','success');
+}
+
+function deleteZone(id){
+  const devCount=state.devices.filter(d=>d.zone_id===id).length;
+  if(devCount>0&&!confirm(`此區域有 ${devCount} 台設備，確定刪除？相關設備將變為「未分類」`)) return;
+  state.devices.filter(d=>d.zone_id===id).forEach(d=>{d.zone_id='';d.zone_name='';});
+  state.zones=state.zones.filter(z=>z.id!==id);
+  lsSave('zones',state.zones); lsSave('devices',state.devices);
+  renderZoneList(); renderDevGrid(); renderDevMgmt();
+  showToast('區域已刪除','success');
 }
 
 // ═══════════════════════════════════════════════════
 // SETTINGS
 // ═══════════════════════════════════════════════════
-async function saveSettings(){
-  const peak_rate=parseFloat(document.getElementById('s-peak').value);
-  const offpeak_rate=parseFloat(document.getElementById('s-offpeak').value);
-  const monthly_budget=parseFloat(document.getElementById('s-budget').value);
-  const carbon_factor=parseFloat(document.getElementById('s-carbon').value);
-  const offpeak_start=document.getElementById('s-offstart').value;
-  const offpeak_end=document.getElementById('s-offend').value;
-  showLoading(true);
-  try{
-    const body={peak_rate,offpeak_rate,monthly_budget,carbon_factor,offpeak_start,offpeak_end};
-    if(state.settings.id) await apiPatch('SystemSettings',state.settings.id,body);
-    else{ const r=await apiPost('SystemSettings',body); state.settings=r.entity||r; }
-    peakRate=peak_rate; offpeakRate=offpeak_rate;
-    calcKPIs(); showToast('設定已儲存','success');
-  }catch(e){showToast('儲存失敗','error');}
-  finally{showLoading(false);}
+function loadSettingsForm(){
+  const s=state.settings;
+  if(s.peak_rate)     document.getElementById('s-peak').value=s.peak_rate;
+  if(s.offpeak_rate)  document.getElementById('s-offpeak').value=s.offpeak_rate;
+  if(s.monthly_budget)document.getElementById('s-budget').value=s.monthly_budget;
+  if(s.carbon_factor) document.getElementById('s-carbon').value=s.carbon_factor;
+  if(s.offpeak_start) document.getElementById('s-offstart').value=s.offpeak_start;
+  if(s.offpeak_end)   document.getElementById('s-offend').value=s.offpeak_end;
+  renderZoneList();
+}
+
+function saveSettings(){
+  const s={
+    ...state.settings,
+    peak_rate:     parseFloat(document.getElementById('s-peak').value),
+    offpeak_rate:  parseFloat(document.getElementById('s-offpeak').value),
+    monthly_budget:parseFloat(document.getElementById('s-budget').value),
+    carbon_factor: parseFloat(document.getElementById('s-carbon').value),
+    offpeak_start: document.getElementById('s-offstart').value,
+    offpeak_end:   document.getElementById('s-offend').value
+  };
+  state.settings=s; lsSave('settings',s);
+  peakRate=s.peak_rate; offpeakRate=s.offpeak_rate;
+  calcKPIs(); showToast('設定已儲存','success');
 }
 
 // ═══════════════════════════════════════════════════
@@ -1017,27 +1021,19 @@ async function sendAI(){
   input.value='';
   appendAIMsg(msg,'user');
   appendAIMsg('<span class="spin"></span> 思考中...','bot typing');
-  // Build context
   const ctx=buildAIContext();
   try{
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
         system:`你是 Factory JARVIS 的 EcoTrack AI 助理，幫助工廠管理者分析能源數據、設備狀態和碳排放。請用繁體中文回覆，簡潔專業。\n\n當前工廠數據：\n${ctx}`,
-        messages:[{role:'user',content:msg}]
-      })
+        messages:[{role:'user',content:msg}]})
     });
     const data=await resp.json();
     const text=data.content?.[0]?.text||'抱歉，無法取得回覆。';
-    removeTyping();
-    appendAIMsg(text,'bot');
-  }catch(e){
-    removeTyping();
-    appendAIMsg('連線錯誤，請稍後再試。','bot');
-  }
+    removeTyping(); appendAIMsg(text,'bot');
+  }catch(e){ removeTyping(); appendAIMsg('連線錯誤，請稍後再試。','bot'); }
 }
 
 function buildAIContext(){
@@ -1049,19 +1045,14 @@ function buildAIContext(){
 function appendAIMsg(text,cls){
   const msgs=document.getElementById('aiMsgs');
   const div=document.createElement('div');
-  div.className='ai-msg '+cls;
-  div.innerHTML=text;
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
+  div.className='ai-msg '+cls; div.innerHTML=text;
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
 }
-function removeTyping(){
-  document.querySelectorAll('.ai-msg.typing').forEach(e=>e.remove());
-}
+function removeTyping(){ document.querySelectorAll('.ai-msg.typing').forEach(e=>e.remove()); }
 
 // ═══════════════════════════════════════════════════
-// GENERIC MODAL
+// MODAL & NAVIGATION
 // ═══════════════════════════════════════════════════
-let simpleModalCallback=null;
 function showSimpleModal(title,bodyHtml,onConfirm){
   simpleModalCallback=onConfirm;
   document.getElementById('sm-title').textContent=title;
@@ -1070,35 +1061,22 @@ function showSimpleModal(title,bodyHtml,onConfirm){
 }
 async function confirmSimpleModal(){
   closeModal('simpleModal');
-  if(simpleModalCallback)await simpleModalCallback();
+  if(simpleModalCallback) await simpleModalCallback();
   simpleModalCallback=null;
 }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-function openModal(id){document.getElementById(id).classList.add('open')}
-function closeModal(id){document.getElementById(id).classList.remove('open')}
-
-// ═══════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════
 function gotoPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.getElementById('nb-'+id).classList.add('active');
   document.getElementById('dashBar').style.display=(id==='dashboard')?'flex':'none';
-  if(id==='energy')renderEnergyPage();
-  if(id==='lca')renderLCA();
-  if(id==='devices'){renderDevMgmt();populateZoneSelects();}
-  if(id==='settings')loadSettingsForm();
-}
-function loadSettingsForm(){
-  const s=state.settings;
-  if(s.peak_rate)document.getElementById('s-peak').value=s.peak_rate;
-  if(s.offpeak_rate)document.getElementById('s-offpeak').value=s.offpeak_rate;
-  if(s.monthly_budget)document.getElementById('s-budget').value=s.monthly_budget;
-  if(s.carbon_factor)document.getElementById('s-carbon').value=s.carbon_factor;
-  if(s.offpeak_start)document.getElementById('s-offstart').value=s.offpeak_start;
-  if(s.offpeak_end)document.getElementById('s-offend').value=s.offpeak_end;
+  if(id==='energy')  renderEnergyPage();
+  if(id==='lca')     renderLCA();
+  if(id==='devices') { renderDevMgmt(); populateZoneSelects(); }
+  if(id==='settings'){ loadSettingsForm(); }
 }
 
 function setTimeRange(r,el){
@@ -1120,7 +1098,7 @@ function setERange(r,el){
 // ═══════════════════════════════════════════════════
 // UI HELPERS
 // ═══════════════════════════════════════════════════
-function showLoading(v){document.getElementById('loadingOverlay').classList.toggle('show',v)}
+function showLoading(v){ document.getElementById('loadingOverlay').classList.toggle('show',v); }
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
   t.textContent=(type==='success'?'✓ ':type==='error'?'✕ ':'')+msg;
@@ -1131,25 +1109,12 @@ function showToast(msg,type='success'){
 // ═══════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════
-(async()=>{
+(()=>{
   showLoading(true);
-  await loadAll();
+  loadAll();
   calcKPIs(); renderDevGrid(); renderTips(); renderDashTrend();
   showLoading(false);
 })();
 </script>
-
-<!-- Simple Modal (used for LCA adds) -->
-<div class="modal-overlay" id="simpleModal">
-  <div class="modal">
-    <div class="modal-title"><span id="sm-title"></span><button class="modal-close" onclick="closeModal('simpleModal')">✕</button></div>
-    <div id="sm-body"></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
-      <button class="btn btn-o" onclick="closeModal('simpleModal')">取消</button>
-      <button class="btn btn-g" onclick="confirmSimpleModal()">✓ 確認</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
