@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Factory JARVIS v3</title>
+<title>Factory JARVIS v4</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -52,9 +52,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sec-title{font-size:15px;font-weight:700;color:#fff}
 .sec-count{font-size:12px;color:var(--text2)}
 .dev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px}
-.dev-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:14px;transition:border-color .2s,transform .15s}
+.dev-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:14px;transition:border-color .2s,transform .15s,box-shadow .2s;cursor:pointer}
 .dev-card:hover{transform:translateY(-2px)}
 .dev-card.on{border-color:rgba(0,232,122,0.28);background:rgba(0,232,122,0.035)}
+.dev-card.selected{border:2px solid var(--cyan) !important;box-shadow:0 0 12px rgba(0,200,232,0.3) !important}
 .dev-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px}
 .dev-pwr{width:27px;height:27px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .dev-pwr.on{background:rgba(0,232,122,0.15);color:var(--green)}
@@ -583,12 +584,12 @@ function renderDashTrend(){
 function renderDevGrid(){
   const devs = spaceFilter==='all' ? state.devices : state.devices.filter(d=>d.zone_name==='工廠產線');
   document.getElementById('devGrid').innerHTML = devs.map(d=>`
-    <div class="dev-card ${d.is_on?'on':''}" id="dc-${d.id}">
+    <div class="dev-card ${d.is_on?'on':''} ${selectedDeviceId===d.id?'selected':''}" id="dc-${d.id}" onclick="selectDevice('${d.id}')">
       <div class="dev-top">
-        <div class="dev-pwr ${d.is_on?'on':'off'}" onclick="toggleDevice('${d.id}',${!d.is_on})">
+        <div class="dev-pwr ${d.is_on?'on':'off'}" onclick="event.stopPropagation();toggleDevice('${d.id}',${!d.is_on})">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
         </div>
-        <div class="toggle ${d.is_on?'on':''}" onclick="toggleDevice('${d.id}',${!d.is_on})"></div>
+        <div class="toggle ${d.is_on?'on':''}" onclick="event.stopPropagation();toggleDevice('${d.id}',${!d.is_on})"></div>
       </div>
       <div class="dev-name">${d.name}</div>
       <div class="dev-zone">${d.zone_name||''}</div>
@@ -1026,7 +1027,7 @@ async function sendAI(){
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
         system:`你是 Factory JARVIS 的 EcoTrack AI 助理，幫助工廠管理者分析能源數據、設備狀態和碳排放。請用繁體中文回覆，簡潔專業。\n\n當前工廠數據：\n${ctx}`,
         messages:[{role:'user',content:msg}]})
     });
@@ -1065,7 +1066,20 @@ async function confirmSimpleModal(){
   simpleModalCallback=null;
 }
 function openModal(id){ document.getElementById(id).classList.add('open'); }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  if(id==='addDeviceModal'){
+    // 還原標題與按鈕狀態
+    const modal=document.getElementById('addDeviceModal');
+    const titleEl=modal.querySelector('.modal-title');
+    const closeBtn=titleEl.querySelector('.modal-close');
+    titleEl.textContent='新增設備';
+    if(closeBtn) titleEl.appendChild(closeBtn);
+    const submitBtn=modal.querySelector('.btn-g');
+    if(submitBtn){ submitBtn.setAttribute('onclick','submitAddDevice()'); submitBtn.textContent='✓ 新增'; }
+    window._editingDeviceFromDash=null;
+  }
+}
 
 function gotoPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1109,6 +1123,69 @@ function showToast(msg,type='success'){
 // ═══════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════
+// ── 設備卡片選取 ──
+let selectedDeviceId = null;
+
+function selectDevice(id){
+  if(selectedDeviceId===id){
+    // 取消選取
+    selectedDeviceId=null;
+    document.querySelectorAll('.dev-card').forEach(c=>c.classList.remove('selected'));
+    const btn=document.getElementById('editSelBtn');
+    btn.disabled=true;
+    btn.removeAttribute('onclick');
+  } else {
+    selectedDeviceId=id;
+    document.querySelectorAll('.dev-card').forEach(c=>c.classList.remove('selected'));
+    const card=document.getElementById('dc-'+id);
+    if(card) card.classList.add('selected');
+    const btn=document.getElementById('editSelBtn');
+    btn.disabled=false;
+    btn.setAttribute('onclick',`openEditDeviceFromDash('${id}')`);
+  }
+}
+
+function openEditDeviceFromDash(id){
+  const d=state.devices.find(x=>x.id===id);
+  if(!d) return;
+  document.getElementById('ad-name').value=d.name;
+  document.getElementById('ad-watt').value=d.wattage;
+  populateZoneSelects();
+  const zoneEl=document.getElementById('ad-zone');
+  if(zoneEl&&d.zone_id) zoneEl.value=d.zone_id;
+  window._editingDeviceFromDash=id;
+  const modal=document.getElementById('addDeviceModal');
+  const submitBtn=modal.querySelector('.btn-g');
+  if(submitBtn){ submitBtn.setAttribute('onclick','submitEditDeviceFromDash()'); submitBtn.textContent='✓ 儲存'; }
+  const titleEl=modal.querySelector('.modal-title');
+  if(titleEl){
+    const closeBtn=titleEl.querySelector('.modal-close');
+    titleEl.textContent='修改設備：'+d.name;
+    if(closeBtn) titleEl.appendChild(closeBtn);
+  }
+  openModal('addDeviceModal');
+}
+
+function submitEditDeviceFromDash(){
+  const id=window._editingDeviceFromDash;
+  if(!id){ submitAddDevice(); return; }
+  const name=document.getElementById('ad-name').value.trim();
+  const wattage=parseFloat(document.getElementById('ad-watt').value)||0;
+  const zone_id=document.getElementById('ad-zone').value;
+  const zone=state.zones.find(z=>z.id===zone_id);
+  if(!name||!wattage){ showToast('請填寫設備名稱與功率','error'); return; }
+  const d=state.devices.find(x=>x.id===id);
+  if(d){ d.name=name; d.wattage=wattage; d.zone_id=zone_id; d.zone_name=zone?.name||''; }
+  lsSave('devices',state.devices);
+  closeModal('addDeviceModal');
+  selectedDeviceId=null;
+  const btn=document.getElementById('editSelBtn');
+  btn.disabled=true;
+  btn.removeAttribute('onclick');
+  renderDevGrid(); renderDevMgmt(); calcKPIs();
+  showToast('設備已更新','success');
+}
+
 (()=>{
   showLoading(true);
   loadAll();
