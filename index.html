@@ -200,6 +200,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .toast.error{border-color:rgba(255,79,106,.3)}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+/* Device Detail Modal */
+.dd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.dd-stat{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:12px 14px}
+.dd-stat-lbl{font-size:11px;color:var(--text2);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.dd-stat-val{font-size:20px;font-weight:800;color:#fff}
+.dd-stat-val span{font-size:11px;font-weight:400;color:var(--text2);margin-left:2px}
+.dd-cost-row{background:rgba(245,184,0,0.07);border:1px solid rgba(245,184,0,0.2);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.dd-cost-row strong{color:var(--yellow);font-size:15px;margin:0 3px}
+.dd-dev-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.dd-pwr-btn{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.dd-pwr-btn.on{background:rgba(0,232,122,0.15);color:var(--green)}
+.dd-pwr-btn.off{background:rgba(255,255,255,0.07);color:var(--text3)}
+.dd-dev-name{font-size:17px;font-weight:800;color:#fff;line-height:1.2}
+.dd-dev-zone{font-size:12px;color:var(--text3);margin-top:2px}
+.dd-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
 </style>
 </head>
 <body>
@@ -357,6 +372,53 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div><!-- end wrap -->
 
 <!-- ══ MODALS ══ -->
+
+<!-- 設備詳細儀表板 Modal -->
+<div class="modal-overlay" id="deviceDetailModal">
+  <div class="modal" style="width:520px">
+    <div class="modal-title" style="margin-bottom:0">
+      <div class="dd-dev-header" style="flex:1;margin-bottom:0">
+        <button class="dd-pwr-btn off" id="dd-pwr-btn" onclick="toggleDeviceFromDetail()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        </button>
+        <div>
+          <div class="dd-dev-name" id="dd-name">—</div>
+          <div class="dd-dev-zone" id="dd-zone">—</div>
+        </div>
+        <span class="dev-badge stop" id="dd-badge" style="margin-left:4px">已關閉</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('deviceDetailModal')" style="margin-left:8px">✕</button>
+    </div>
+    <div style="border-top:1px solid var(--border2);margin:14px 0"></div>
+    <div class="dd-stats">
+      <div class="dd-stat">
+        <div class="dd-stat-lbl"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00e87a" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>額定功率</div>
+        <div class="dd-stat-val" id="dd-watt">—<span>W</span></div>
+      </div>
+      <div class="dd-stat">
+        <div class="dd-stat-lbl"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00c8e8" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>累計用電</div>
+        <div class="dd-stat-val" id="dd-kwh">—<span>kWh</span></div>
+      </div>
+      <div class="dd-stat">
+        <div class="dd-stat-lbl"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#b090ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>碳排放</div>
+        <div class="dd-stat-val" id="dd-co2">—<span>kg CO₂</span></div>
+      </div>
+    </div>
+    <div class="dd-cost-row">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5b800" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      預估月電費（8hr/天 × 30天）：<strong id="dd-cost">—</strong> 元
+    </div>
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-hdr"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>近7天用電 (kWh)</div>
+      <div class="chart-wrap"><canvas id="deviceDetailChart"></canvas></div>
+    </div>
+    <div class="dd-actions">
+      <button class="btn btn-o" onclick="closeModal('deviceDetailModal')">關閉</button>
+      <button class="btn btn-g" onclick="editFromDetail()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>修改設備</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addDeviceModal">
   <div class="modal">
     <div class="modal-title">新增設備<button class="modal-close" onclick="closeModal('addDeviceModal')">✕</button></div>
@@ -584,7 +646,7 @@ function renderDashTrend(){
 function renderDevGrid(){
   const devs = spaceFilter==='all' ? state.devices : state.devices.filter(d=>d.zone_name==='工廠產線');
   document.getElementById('devGrid').innerHTML = devs.map(d=>`
-    <div class="dev-card ${d.is_on?'on':''} ${selectedDeviceId===d.id?'selected':''}" id="dc-${d.id}" onclick="selectDevice('${d.id}')">
+    <div class="dev-card ${d.is_on?'on':''}" id="dc-${d.id}" onclick="openDeviceDetail('${d.id}')"  >
       <div class="dev-top">
         <div class="dev-pwr ${d.is_on?'on':'off'}" onclick="event.stopPropagation();toggleDevice('${d.id}',${!d.is_on})">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
@@ -1069,7 +1131,6 @@ function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){
   document.getElementById(id).classList.remove('open');
   if(id==='addDeviceModal'){
-    // 還原標題與按鈕狀態
     const modal=document.getElementById('addDeviceModal');
     const titleEl=modal.querySelector('.modal-title');
     const closeBtn=titleEl.querySelector('.modal-close');
@@ -1079,6 +1140,70 @@ function closeModal(id){
     if(submitBtn){ submitBtn.setAttribute('onclick','submitAddDevice()'); submitBtn.textContent='✓ 新增'; }
     window._editingDeviceFromDash=null;
   }
+  if(id==='deviceDetailModal'){
+    if(deviceDetailChart){ deviceDetailChart.destroy(); deviceDetailChart=null; }
+    detailDeviceId=null;
+  }
+}
+
+// ── 設備詳細儀表板 ──
+let detailDeviceId=null;
+let deviceDetailChart=null;
+
+function openDeviceDetail(id){
+  const d=state.devices.find(x=>x.id===id);
+  if(!d) return;
+  detailDeviceId=id;
+  document.getElementById('dd-name').textContent=d.name;
+  document.getElementById('dd-zone').textContent=d.zone_name||'未分配區域';
+  const badge=document.getElementById('dd-badge');
+  badge.textContent=d.is_on?'運行中':'已關閉';
+  badge.className='dev-badge '+(d.is_on?'run':'stop');
+  const pwrBtn=document.getElementById('dd-pwr-btn');
+  pwrBtn.className='dd-pwr-btn '+(d.is_on?'on':'off');
+  const kwh=parseFloat(getDeviceKwh(id));
+  document.getElementById('dd-watt').innerHTML=d.wattage+'<span>W</span>';
+  document.getElementById('dd-kwh').innerHTML=kwh.toFixed(2)+'<span>kWh</span>';
+  document.getElementById('dd-co2').innerHTML=(kwh*CARBON).toFixed(2)+'<span>kg CO₂</span>';
+  const monthlyCost=((d.wattage/1000)*8*30*peakRate).toFixed(0);
+  document.getElementById('dd-cost').textContent=monthlyCost;
+  renderDeviceDetailChart(id);
+  openModal('deviceDetailModal');
+}
+
+function renderDeviceDetailChart(id){
+  const now=new Date();
+  const labels=[],data=[];
+  for(let i=6;i>=0;i--){
+    const date=new Date(now); date.setHours(0,0,0,0); date.setDate(date.getDate()-i);
+    const next=new Date(date); next.setDate(next.getDate()+1);
+    labels.push((date.getMonth()+1)+'/'+(date.getDate()));
+    const kwh=state.logs.filter(l=>l.device_id===id&&new Date(l.timestamp)>=date&&new Date(l.timestamp)<next).reduce((s,l)=>s+(l.kwh||0),0);
+    data.push(parseFloat(kwh.toFixed(2)));
+  }
+  if(deviceDetailChart){ deviceDetailChart.destroy(); deviceDetailChart=null; }
+  const ctx=document.getElementById('deviceDetailChart').getContext('2d');
+  deviceDetailChart=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:'rgba(0,232,122,0.45)',borderColor:'rgba(0,232,122,1)',borderWidth:1,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+' kWh'}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#8fa8c8',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#8fa8c8',font:{size:10}}}}}
+  });
+}
+
+function toggleDeviceFromDetail(){
+  if(!detailDeviceId) return;
+  const d=state.devices.find(x=>x.id===detailDeviceId);
+  if(!d) return;
+  d.is_on=!d.is_on;
+  lsSave('devices',state.devices);
+  renderDevGrid(); calcKPIs(); renderTips();
+  openDeviceDetail(detailDeviceId);
+}
+
+function editFromDetail(){
+  const id=detailDeviceId;
+  closeModal('deviceDetailModal');
+  openEditDeviceFromDash(id);
 }
 
 function gotoPage(id){
